@@ -1,0 +1,16 @@
+{
+    "session_id": "S0000",
+    "experiment_id": "E0012",
+    "container_id": "C0_01_b",
+    "status": "pending",
+    "n_objects": 2,
+    "aligned": false,
+    "annotations": [
+        {
+            "object": "11_11"
+        },
+        {
+            "object": "5_11"
+        }
+    ]
+}
