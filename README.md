@@ -223,6 +223,30 @@ query = 'DELETE FROM objects WHERE object_id = "1_1"'
 result = db.run_query(query)
 ```
 
+### Delete an experiment
+To delete an experiment, run the following function:
+
+```python3
+import db_queries as db
+
+experiment_id = 'E0000'
+
+result = db.delete_experiment(experiment_id)
+```
+
+This deletes the experiment from the database and removes all links to objects.
+
+### Delete a session
+To delete a sesssion (and all experiments associated with it), run the following function:
+
+```python3
+import db_queries as db
+
+session_id = 'S0000'
+
+result = db.delete_session(session_id)
+```
+
 ## Create a set of experiments.
 Follow the steps in the `create_experiments.ipynb` notebook to create a set of experiments.
 

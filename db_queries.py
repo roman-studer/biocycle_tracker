@@ -352,6 +352,67 @@ def get_experiment(experiment_id: str, db_path: str = db) -> dict:
     return experiment_description
 
 
+def delete_experiment(experiment_id: str, db_path: str = db) -> None:
+    """
+    Delete a single experiment from the database
+    :param experiment_id: str, experiment_id of the experiment
+    :param db_path: str (optional), name of the database
+    :return: None
+    """
+    assert get_experiment(experiment_id, db_path) != [], f'Experiment {experiment_id} does not exist in the database'
+
+    con = db_builder.get_db_connection(db_path)
+    query = f'''
+        DELETE FROM experiment_objects
+            WHERE experiment_id = '{experiment_id}';
+        '''
+    con.execute(query)
+    con.commit()
+    query = f'''
+        DELETE FROM experiments
+            WHERE experiment_id = '{experiment_id}';
+        '''
+    con.execute(query)
+    con.commit()
+    con.close()
+
+    return None
+
+
+def delete_session(session_id: str, db_path: str = db) -> None:
+    """
+    Delete a single session from the database. Note that this also removes all experiments
+    associated with the session.
+    :param session_id: str, session_id of the session
+    :param db_path: str (optional), name of the database
+    :return: None
+    """
+    assert get_session(session_id, db_path) != [], f'Session {session_id} does not exist in the database.'
+
+    con = db_builder.get_db_connection(db_path)
+    query = f'''
+        DELETE FROM experiment_objects
+            WHERE experiment_id IN (SELECT experiment_id FROM experiments WHERE session_id = '{session_id}');
+        '''
+    con.execute(query)
+    con.commit()
+    query = f'''
+        DELETE FROM experiments
+            WHERE session_id = '{session_id}';
+        '''
+    con.execute(query)
+    con.commit()
+    query = f'''
+        DELETE FROM sessions
+            WHERE session_id = '{session_id}';
+        '''
+    con.execute(query)
+    con.commit()
+    con.close()
+
+    return None
+
+
 def run_query(query: str, db_path: str = db):
     """
     Run an arbitrary query on the database
@@ -367,4 +428,4 @@ def run_query(query: str, db_path: str = db):
 
 
 if __name__ == '__main__':
-    result = get_complete_session('S0000')
+    pass
