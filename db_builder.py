@@ -68,6 +68,7 @@ def create_schema(db_path: str = db) -> None:
             container_id TEXT,
             n_objects INTEGER,
             session_id TEXT, 
+            file_path TEXT,
             FOREIGN KEY(session_id) REFERENCES sessions(session_id),
             FOREIGN KEY(container_id) REFERENCES containers(container_id),
             UNIQUE (experiment_id));

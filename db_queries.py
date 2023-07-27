@@ -428,4 +428,4 @@ def run_query(query: str, db_path: str = db):
 
 
 if __name__ == '__main__':
-    pass
+    delete_session("S0001")
